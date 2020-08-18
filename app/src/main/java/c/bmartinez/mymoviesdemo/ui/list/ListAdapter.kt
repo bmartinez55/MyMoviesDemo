@@ -1,12 +1,14 @@
 package c.bmartinez.mymoviesdemo.ui.list
 
 import android.annotation.SuppressLint
+import android.content.ClipData
 import android.content.Context
 import android.graphics.Movie
 import android.text.method.TextKeyListener.clear
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import androidx.recyclerview.widget.RecyclerView
 import c.bmartinez.mymoviesdemo.R
 import c.bmartinez.mymoviesdemo.data.Movies
@@ -52,6 +54,8 @@ class ListAdapter(private val movies: List<Movies>): RecyclerView.Adapter<ListAd
         private fun fixDurationFormat(input: String) = input.replace("M"," minutes")
     }
 
+    private var onItemClickListener: ItemClickListener? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder =
         MovieViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item,parent,false))
 
@@ -59,6 +63,16 @@ class ListAdapter(private val movies: List<Movies>): RecyclerView.Adapter<ListAd
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         holder.bind(movies[position])
+        holder.itemView.setOnClickListener {
+            onItemClickListener?.onItemCLick(holder.itemView,position)
+        }
+    }
+
+    fun setItemClickListener(clickListener: ItemClickListener){
+        onItemClickListener = clickListener
+    }
+    interface ItemClickListener{
+        fun onItemCLick(view: View, position: Int)
     }
 
 //    fun addMovies(movies: List<Movies>){
