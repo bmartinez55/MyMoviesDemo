@@ -15,22 +15,4 @@ class MainViewModel(private val mainRepository: MainRepository): ViewModel() {
         savedMovies.value = mainRepository.getMovies()
         emit(savedMovies)
     }
-
-//    private var movieList: MutableLiveData<List<Movies>> = MutableLiveData()
-//    val savedMovieList: MutableList<Movies> = mutableListOf()
-//
-//    suspend fun getMovies(): LiveData<List<Movies>> {
-//        mainRepository.getMovies().forEach {
-//            if(it != null){
-//                Log.d("READ DATA", "Call failed to read snapshop")
-//                movieList.value = null
-//                return@forEach
-//            }
-//            savedMovieList.add(it)
-//        }
-//        movieList.value = savedMovieList
-////        val data  = mainRepository.getMovies()
-////        emit(movieList)
-//        return movieList
-    //}
 }
