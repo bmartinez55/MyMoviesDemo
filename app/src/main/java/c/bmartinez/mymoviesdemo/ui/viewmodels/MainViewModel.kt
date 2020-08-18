@@ -1,17 +1,14 @@
 package c.bmartinez.mymoviesdemo.ui.viewmodels
 
-import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import c.bmartinez.mymoviesdemo.data.MainRepository
 import c.bmartinez.mymoviesdemo.data.Movies
-import c.bmartinez.mymoviesdemo.utils.Resource
 import kotlinx.coroutines.Dispatchers
-import java.lang.Exception
+import org.koin.standalone.KoinComponent
 
-class MainViewModel(private val mainRepository: MainRepository): ViewModel() {
+class MainViewModel(private val mainRepository: MainRepository): ViewModel(), KoinComponent {
 
     val savedMovies: MutableLiveData<List<Movies>> = MutableLiveData()
 
