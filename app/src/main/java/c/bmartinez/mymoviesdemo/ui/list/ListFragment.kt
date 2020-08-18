@@ -13,15 +13,31 @@ import c.bmartinez.mymoviesdemo.R
 import c.bmartinez.mymoviesdemo.data.Movies
 import c.bmartinez.mymoviesdemo.ui.details.DetailsFragment
 import c.bmartinez.mymoviesdemo.ui.viewmodels.MainViewModel
-import org.koin.android.viewmodel.ext.android.viewModel
 
 class ListFragment: Fragment() {
 
-    private val movieListVM: MainViewModel by viewModel()
+    private var movieListVM: MainViewModel? = null
     private var movieData: List<Movies> = listOf()
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: ListAdapter
+    private lateinit var linearLayoutManager: LinearLayoutManager
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        adapter = ListAdapter(movieData)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_list,container,false)
+        val rootView: View = inflater.inflate(R.layout.fragment_list,container,false)
+
+        linearLayoutManager = LinearLayoutManager(activity)
+        linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
+
+        recyclerView = rootView.findViewById(R.id.movieList)!!
+        recyclerView.setHasFixedSize(true)
+        recyclerView.layoutManager = linearLayoutManager
+        recyclerView.adapter = adapter
+        return rootView
     }
 
     override fun onStart() {
@@ -30,14 +46,9 @@ class ListFragment: Fragment() {
     }
 
     private fun setUpUI(){
-        val recyclerView = view?.findViewById<RecyclerView>(R.id.movieList)
-        recyclerView!!.layoutManager = LinearLayoutManager(view!!.context,LinearLayoutManager.VERTICAL,false)
-
-        movieListVM.getMovies()
-        movieListVM.savedMovies.observe(this, Observer(function = fun(movieList: List<Movies>?){
+        movieListVM?.getMovies()
+        movieListVM?.savedMovies?.observe(this, Observer(function = fun(movieList: List<Movies>?){
             movieList?.let{
-                val adapter: ListAdapter = ListAdapter(movieList)
-                recyclerView.adapter = adapter
                 adapter.setItemClickListener(object: ListAdapter.ItemClickListener{
                     override fun onItemCLick(view: View, position: Int) {
                         val newFragment = DetailsFragment.newInstance(movieList.get(position))

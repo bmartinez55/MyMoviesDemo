@@ -6,9 +6,8 @@ import androidx.lifecycle.liveData
 import c.bmartinez.mymoviesdemo.data.MainRepository
 import c.bmartinez.mymoviesdemo.data.Movies
 import kotlinx.coroutines.Dispatchers
-import org.koin.standalone.KoinComponent
 
-class MainViewModel(private val mainRepository: MainRepository): ViewModel(), KoinComponent {
+class MainViewModel(private val mainRepository: MainRepository): ViewModel() {
 
     val savedMovies: MutableLiveData<List<Movies>> = MutableLiveData()
 
