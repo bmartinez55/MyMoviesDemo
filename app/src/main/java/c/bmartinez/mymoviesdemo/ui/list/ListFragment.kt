@@ -1,9 +1,11 @@
 package c.bmartinez.mymoviesdemo.ui.list
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -17,7 +19,7 @@ import c.bmartinez.mymoviesdemo.ui.viewmodels.MainViewModel
 class ListFragment: Fragment() {
 
     private var movieListVM: MainViewModel? = null
-    private var movieData: List<Movies> = listOf()
+    private var movieData: ArrayList<Movies> = arrayListOf()
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: ListAdapter
     private lateinit var linearLayoutManager: LinearLayoutManager
@@ -43,20 +45,38 @@ class ListFragment: Fragment() {
     override fun onStart() {
         super.onStart()
         setUpUI()
+        checkData()
     }
 
     private fun setUpUI(){
-        movieListVM?.getMovies()
-        movieListVM?.savedMovies?.observe(this, Observer(function = fun(movieList: List<Movies>?){
-            movieList?.let{
-                adapter.setItemClickListener(object: ListAdapter.ItemClickListener{
-                    override fun onItemCLick(view: View, position: Int) {
-                        val newFragment = DetailsFragment.newInstance(movieList.get(position))
-                        val transaction = fragmentManager!!.beginTransaction()
-                            .addToBackStack(null).commit()
-                    }
-                })
+        movieListVM?.fetchMovies()
+        movieListVM?.savedMovies?.observe(this, Observer {
+            for(i in it){
+                movieData.add(i)
             }
-        }))
+        })
+//        movieListVM?.savedMovies?.observe(this, Observer(function = fun(movieList: List<Movies>?){
+//            for(i in movieList!!){
+//                movieData.add(i)
+//            }
+////            movieList.let{
+//////                adapter.setItemClickListener(object: ListAdapter.ItemClickListener{
+//////                    override fun onItemCLick(view: View, position: Int) {
+//////                        val newFragment = DetailsFragment.newInstance(movieList.get(position))
+//////                        val transaction = fragmentManager!!.beginTransaction()
+//////                            .addToBackStack(null).commit()
+//////                    }
+//////                })
+//////            }
+//        }))
+    }
+
+    private fun checkData(){
+        if(movieData.isEmpty()){ Toast.makeText(context,"Data was not retrieved", Toast.LENGTH_LONG).show()}
+        else {
+            for (i in movieData) {
+                Log.i("DATA", i.title)
+            }
+        }
     }
 }

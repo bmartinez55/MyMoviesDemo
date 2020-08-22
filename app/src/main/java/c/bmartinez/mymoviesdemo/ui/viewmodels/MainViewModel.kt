@@ -5,32 +5,28 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import c.bmartinez.mymoviesdemo.data.MainRepository
 import c.bmartinez.mymoviesdemo.data.Movies
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
 
 class MainViewModel(private val mainRepository: MainRepository): ViewModel() {
 
-    val savedMovies: MutableLiveData<List<Movies>> = MutableLiveData()
+    val savedMovies: MutableLiveData<MutableList<Movies>> = MutableLiveData()
+    private val parentJob = Job()
+    private val coroutineContext: CoroutineContext
+        get() = parentJob + Dispatchers.Default
+    private val scope = CoroutineScope(coroutineContext)
 
-    fun getMovies() = liveData(Dispatchers.IO) {
-        savedMovies.value = mainRepository.getMovies()
-        emit(savedMovies)
+    fun fetchMovies(){
+        scope.launch {
+            val movies = mainRepository.getMovies()
+            savedMovies.postValue(movies)
+        }
     }
 
-//    private var movieList: MutableLiveData<List<Movies>> = MutableLiveData()
-//    val savedMovieList: MutableList<Movies> = mutableListOf()
-//
-//    suspend fun getMovies(): LiveData<List<Movies>> {
-//        mainRepository.getMovies().forEach {
-//            if(it != null){
-//                Log.d("READ DATA", "Call failed to read snapshop")
-//                movieList.value = null
-//                return@forEach
-//            }
-//            savedMovieList.add(it)
-//        }
-//        movieList.value = savedMovieList
-////        val data  = mainRepository.getMovies()
-////        emit(movieList)
-//        return movieList
-    //}
+    fun cancelAllRequests() = coroutineContext.cancel()
+
+//    fun getMovies() = liveData(Dispatchers.IO) {
+//        savedMovies.value = mainRepository.getMovies()
+//        emit(savedMovies)
+//    }
 }

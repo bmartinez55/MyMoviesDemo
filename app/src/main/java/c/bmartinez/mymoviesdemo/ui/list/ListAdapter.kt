@@ -25,12 +25,12 @@ class ListAdapter(private val movies: List<Movies>): RecyclerView.Adapter<ListAd
 
         fun bind(movie: Movies){
             itemView.apply {
-                Glide.with(moviePoster.context).load(movie.posterUrl).into(moviePoster)
+                Glide.with(moviePoster.context).load(movie.posterurl).into(moviePoster)
                 titleMovie.text = movie.title
                 dateRelease.text = fixDurationFormat(movie.duration)
-                dateRelease.text = movie.releaseData
+                dateRelease.text = movie.releasedata
                 genreTextView.text = convertGenreArrayToString(movie.genres)
-                dateRelease.text = changeTimeFormat(movie.releaseData).toString()
+                dateRelease.text = changeTimeFormat(movie.releasedata).toString()
                 shortTextView.text = checkMovieShort(movie.duration)
             }
         }
@@ -54,7 +54,7 @@ class ListAdapter(private val movies: List<Movies>): RecyclerView.Adapter<ListAd
         private fun fixDurationFormat(input: String) = input.replace("M"," minutes")
     }
 
-    private var onItemClickListener: ItemClickListener? = null
+    //private var onItemClickListener: ItemClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder =
         MovieViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item,parent,false))
@@ -63,17 +63,17 @@ class ListAdapter(private val movies: List<Movies>): RecyclerView.Adapter<ListAd
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         holder.bind(movies[position])
-        holder.itemView.setOnClickListener {
-            onItemClickListener?.onItemCLick(holder.itemView,position)
-        }
+//        holder.itemView.setOnClickListener {
+//            onItemClickListener?.onItemCLick(holder.itemView,position)
+//        }
     }
 
-    fun setItemClickListener(clickListener: ItemClickListener){
-        onItemClickListener = clickListener
-    }
-    interface ItemClickListener{
-        fun onItemCLick(view: View, position: Int)
-    }
+//    fun setItemClickListener(clickListener: ItemClickListener){
+//        onItemClickListener = clickListener
+//    }
+//    interface ItemClickListener{
+//        fun onItemCLick(view: View, position: Int)
+//    }
 
 //    fun addMovies(movies: List<Movies>){
 //        this.movies.apply {
