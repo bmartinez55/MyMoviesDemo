@@ -11,7 +11,7 @@ import retrofit2.http.Path
 interface ApiService {
 //    @GET("b/5f2c4877dddf413f95be718b")
 //    suspend fun getMovies(): List<Movies>
-    @GET("b/5f2c4877dddf413f95be718b")
+    @GET("/b/5f417248514ec5112d0c1110/1")
     suspend fun getMovies(): Deferred<Response<MovieResponse>>
 
     @GET("/")
