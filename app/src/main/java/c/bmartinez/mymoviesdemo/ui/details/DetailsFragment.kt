@@ -15,13 +15,13 @@ class DetailsFragment: Fragment() {
     companion object{
         const val KEY = "KEY_MOVIES"
 
-        fun newInstance(movies: Movies): DetailsFragment {
-            val args = Bundle()
-            args.putSerializable(KEY, movies)
-            val fragment = DetailsFragment()
-            fragment.arguments = args
-            return fragment
-        }
+//        fun newInstance(movies: Movies): DetailsFragment {
+//            val args = Bundle()
+//            args.putSerializable(KEY, movies)
+//            val fragment = DetailsFragment()
+//            fragment.arguments = args
+//            return fragment
+//        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

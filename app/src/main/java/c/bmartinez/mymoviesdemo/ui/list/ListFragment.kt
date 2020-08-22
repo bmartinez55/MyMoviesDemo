@@ -49,26 +49,34 @@ class ListFragment: Fragment() {
     }
 
     private fun setUpUI(){
-        movieListVM?.getMovies()
-        movieListVM?.savedMovies?.observe(this, Observer(function = fun(movieList: List<Movies>?){
-            for(i in movieList!!){
+        movieListVM?.fetchMovies()
+        movieListVM?.savedMovies?.observe(this, Observer {
+            for(i in it){
                 movieData.add(i)
             }
-            movieList.let{
-                adapter.setItemClickListener(object: ListAdapter.ItemClickListener{
-                    override fun onItemCLick(view: View, position: Int) {
-                        val newFragment = DetailsFragment.newInstance(movieList.get(position))
-                        val transaction = fragmentManager!!.beginTransaction()
-                            .addToBackStack(null).commit()
-                    }
-                })
-            }
-        }))
+        })
+//        movieListVM?.savedMovies?.observe(this, Observer(function = fun(movieList: List<Movies>?){
+//            for(i in movieList!!){
+//                movieData.add(i)
+//            }
+////            movieList.let{
+//////                adapter.setItemClickListener(object: ListAdapter.ItemClickListener{
+//////                    override fun onItemCLick(view: View, position: Int) {
+//////                        val newFragment = DetailsFragment.newInstance(movieList.get(position))
+//////                        val transaction = fragmentManager!!.beginTransaction()
+//////                            .addToBackStack(null).commit()
+//////                    }
+//////                })
+//////            }
+//        }))
     }
 
     private fun checkData(){
-        for(i in movieData){
-            Log.i("DATA", i.title)
+        if(movieData.isEmpty()){ Toast.makeText(context,"Data was not retrieved", Toast.LENGTH_LONG).show()}
+        else {
+            for (i in movieData) {
+                Log.i("DATA", i.title)
+            }
         }
     }
 }

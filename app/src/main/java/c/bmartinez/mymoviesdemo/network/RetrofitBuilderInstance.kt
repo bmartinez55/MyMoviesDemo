@@ -6,7 +6,7 @@ import retrofit2.create
 
 object RetrofitBuilderInstance {
 
-    private const val MOVIES_URL = "https://api.jsonbin.io/b/5f2c4877dddf413f95be718b"
+    private const val MOVIES_URL = "https://api.jsonbin.io/"
 
     private fun getMoviesRetrofit(): Retrofit{
         return Retrofit.Builder().baseUrl(MOVIES_URL)
