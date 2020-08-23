@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.recyclerview.widget.RecyclerView
 import c.bmartinez.mymoviesdemo.R
+import c.bmartinez.mymoviesdemo.data.MovieData
 import c.bmartinez.mymoviesdemo.data.Movies
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.list_item.view.*
@@ -19,19 +20,20 @@ import java.util.*
 import java.util.Collections.addAll
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
-class ListAdapter(private val movies: List<Movies>): RecyclerView.Adapter<ListAdapter.MovieViewHolder>() {
+class ListAdapter(private val movies: List<MovieData>): RecyclerView.Adapter<ListAdapter.MovieViewHolder>() {
 
     class MovieViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
 
-        fun bind(movie: Movies){
+        fun bind(movie: MovieData){
             itemView.apply {
-                Glide.with(moviePoster.context).load(movie.posterurl).into(moviePoster)
-                titleMovie.text = movie.title
-                dateRelease.text = fixDurationFormat(movie.duration)
-                dateRelease.text = movie.releasedata
-                genreTextView.text = convertGenreArrayToString(movie.genres)
-                dateRelease.text = changeTimeFormat(movie.releasedata).toString()
-                shortTextView.text = checkMovieShort(movie.duration)
+                movie.movies.forEach {it ->
+                    Glide.with(moviePoster.context).load(it.posterurl).into(moviePoster)
+                    titleMovie.text = it.title
+                    genreTextView.text = convertGenreArrayToString(it.genres)
+                    dateRelease.text = changeTimeFormat(it.releasedata).toString()
+                    shortTextView.text = checkMovieShort(it.duration)
+                }
+
             }
         }
 

@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import c.bmartinez.mymoviesdemo.R
+import c.bmartinez.mymoviesdemo.data.MovieData
 import c.bmartinez.mymoviesdemo.data.Movies
 import c.bmartinez.mymoviesdemo.ui.details.DetailsFragment
 import c.bmartinez.mymoviesdemo.ui.viewmodels.MainViewModel
