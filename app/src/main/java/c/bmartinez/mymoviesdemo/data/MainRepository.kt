@@ -1,15 +1,16 @@
 package c.bmartinez.mymoviesdemo.data
 
-import c.bmartinez.mymoviesdemo.network.ApiHelper
 import c.bmartinez.mymoviesdemo.network.ApiService
 
 class MainRepository(private val api: ApiService): BaseRepository() {
+    //get movie data using safe api call
     suspend fun getMovies(): MutableList<Movies>?{
-        val movieResponse = safeApiCall(
-            call = {api.getMovies().await()},
-            errorMessage = "Error Fetching Movies"
-        )
-        return movieResponse?.results?.toMutableList()
+        return safeApiCall(
+            //await the result of deferred type
+            call = { api.getMovies().await() },
+            errorMessage = "Error fetching movie data"
+            //Convert to mutable list
+        )?.movies?.toMutableList()
     }
 
     //suspend fun getMovies() = apiHelper.getMovies()

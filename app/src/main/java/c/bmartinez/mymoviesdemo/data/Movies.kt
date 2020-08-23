@@ -1,6 +1,8 @@
 package c.bmartinez.mymoviesdemo.data
 
-import com.google.gson.annotations.SerializedName
+data class MovieData(
+    val movies: List<Movies>
+)
 
 data class Movies(
     val id: String,
@@ -11,7 +13,8 @@ data class Movies(
     val releasedata: String,
     val storyline: String,
     val actors: List<String>,
-    val posterurl: String
+    val posterurl: String,
+    val ratings: List<MovieRatings>
 )
 
 data class MovieRatings(
