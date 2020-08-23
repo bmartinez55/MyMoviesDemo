@@ -7,7 +7,7 @@ class MainRepository(private val api: ApiService): BaseRepository() {
     suspend fun getMovies(): MutableList<Movies>?{
         return safeApiCall(
             //await the result of deferred type
-            call = { api.getMovies().await() },
+            call = { api.getMoviesAsync().await() },
             errorMessage = "Error fetching movie data"
             //Convert to mutable list
         )?.movies?.toMutableList()

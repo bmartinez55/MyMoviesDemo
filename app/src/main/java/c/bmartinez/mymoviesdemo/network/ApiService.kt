@@ -9,8 +9,8 @@ import retrofit2.http.GET
 
 interface ApiService {
 
-    @GET("/b/5f417248514ec5112d0c1110/1")
-    fun getMovies(): Deferred<Response<MovieData>>
+    @GET("5f417248514ec5112d0c1110/2")
+    fun getMoviesAsync(): Deferred<Response<MovieData>>
 
     @GET("/")
     fun getMovieRatings(): List<MovieRatings>

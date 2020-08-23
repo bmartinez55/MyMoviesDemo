@@ -11,10 +11,10 @@ import retrofit2.create
 
 object RetrofitBuilderInstance {
 
-    private const val MOVIES_URL = "https://api.jsonbin.io/"
+    private const val MOVIES_URL = "https://api.jsonbin.io/b/"
     //Creating a Network Interceptor to add api_key in all the request as authInterceptor
     private val interceptor = Interceptor {chain ->
-        val url = chain.request().url.newBuilder().addQueryParameter("apiKey", "1").build()
+        val url = chain.request().url.newBuilder().addQueryParameter("apiKey", "dKotf3XcgfOldXMiHvt6eYP3fpdVnA7qoy2dTcRzoo7T2WADYHXG").build()
         val request = chain.request().newBuilder().url(url).build()
         chain.proceed(request)
     }
