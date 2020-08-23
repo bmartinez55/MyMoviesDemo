@@ -16,38 +16,43 @@ import c.bmartinez.mymoviesdemo.data.MovieData
 import c.bmartinez.mymoviesdemo.data.Movies
 import c.bmartinez.mymoviesdemo.ui.details.DetailsFragment
 import c.bmartinez.mymoviesdemo.ui.viewmodels.MainViewModel
+import kotlinx.android.synthetic.main.fragment_list.*
 
 class ListFragment: Fragment() {
 
     private var movieListVM: MainViewModel? = null
     private var movieData: ArrayList<Movies> = arrayListOf()
     private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: ListAdapter
     private lateinit var linearLayoutManager: LinearLayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        adapter = ListAdapter(movieData)
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val rootView: View = inflater.inflate(R.layout.fragment_list,container,false)
-
-        linearLayoutManager = LinearLayoutManager(activity)
-        linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
-
-        recyclerView = rootView.findViewById(R.id.movieList)!!
-        recyclerView.setHasFixedSize(true)
-        recyclerView.layoutManager = linearLayoutManager
-        recyclerView.adapter = adapter
+        val rootView = inflater.inflate(R.layout.fragment_list, container, false)
+        movieList.apply {
+            recyclerView = rootView.findViewById(R.id.movieList) as RecyclerView
+            linearLayoutManager = LinearLayoutManager(activity)
+            linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
+            recyclerView.setHasFixedSize(true)
+            recyclerView.layoutManager = linearLayoutManager
+            recyclerView.adapter = ListAdapter(movieData)
+        }
         return rootView
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setUpUI()
         checkData()
     }
+
+//    override fun onStart() {
+//        super.onStart()
+//
+//    }
 
     private fun setUpUI(){
         movieListVM?.fetchMovies()

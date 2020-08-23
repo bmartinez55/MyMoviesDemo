@@ -8,7 +8,7 @@ import c.bmartinez.mymoviesdemo.network.RetrofitBuilderInstance
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
-class MainViewModel() : ViewModel() {
+class MainViewModel(private val mainRepository: MainRepository) : ViewModel() {
 
     val savedMovies: MutableLiveData<MutableList<Movies>> = MutableLiveData()
     private val parentJob = Job()
@@ -16,7 +16,7 @@ class MainViewModel() : ViewModel() {
     private val coroutineContext: CoroutineContext
         get() = parentJob + Dispatchers.Default
     private val scope = CoroutineScope(coroutineContext)
-    private val mainRepository: MainRepository = MainRepository(RetrofitBuilderInstance.movieApi)
+     //mainRepository = MainRepository(RetrofitBuilderInstance.movieApi)
 
     fun fetchMovies(){
         scope.launch {
