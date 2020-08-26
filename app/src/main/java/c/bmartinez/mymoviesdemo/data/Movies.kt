@@ -2,9 +2,9 @@ package c.bmartinez.mymoviesdemo.data
 
 import com.google.gson.annotations.SerializedName
 
-data class MovieData(
-    val movies: List<Movies>
-)
+//data class MovieData(
+//    val movies: List<Movies>
+//)
 
 data class Movies(
     @SerializedName("id")
