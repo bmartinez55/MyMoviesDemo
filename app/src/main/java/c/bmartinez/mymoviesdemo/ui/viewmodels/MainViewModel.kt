@@ -1,20 +1,13 @@
 package c.bmartinez.mymoviesdemo.ui.viewmodels
 
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
+import androidx.lifecycle.*
 import c.bmartinez.mymoviesdemo.data.MainRepository
 import c.bmartinez.mymoviesdemo.data.Movies
-import c.bmartinez.mymoviesdemo.network.RetrofitBuilderInstance
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
-
-class MainViewModel(val mainRepository: MainRepository) : ViewModel() {
-
-//    suspend fun getMovieData(): MutableList<Movies>? {
-//        return mainRepository.getMovies()
-//    }
+//val mainRepository: MainRepository
+class MainViewModel() : ViewModel() {
+    private val mainRepository: MainRepository = MainRepository()
     
     var movieDataVM = liveData(Dispatchers.IO){
         val data = mainRepository.getMovies()
