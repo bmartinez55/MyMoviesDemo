@@ -1,5 +1,6 @@
 package c.bmartinez.mymoviesdemo.network
 
+import c.bmartinez.mymoviesdemo.BuildConfig
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.Interceptor
 import okhttp3.OkHttp
@@ -12,27 +13,13 @@ import retrofit2.create
 
 object RetrofitBuilderInstance {
     private const val MOVIES_URL = "https://api.themoviedb.org/3/movie/157336?api_key={api_key}"
-    private val logging = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC)
-    private val client: OkHttpClient = OkHttpClient().newBuilder().addInterceptor(logging).build()
-
-    private fun getMoviesRetrofit(): Retrofit{
-        return Retrofit.Builder()
-            .baseUrl(MOVIES_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(client)
-            .build()
+    private const val tmdbApiKey = BuildConfig.
+    //Creating Auth Interceptor to add api_key query infront of all requests
+    private val authInterceptor = Interceptor { chain ->
+        val newUrl = chain.request().url
+            .newBuilder()
+            .addQueryParameter("api_key",)
     }
 
 
-    val movieApi: ApiService = getMoviesRetrofit().create(ApiService::class.java)
 }
-//
-//Creating a Network Interceptor to add api_key in all the request as authInterceptor
-//    private val interceptor = Interceptor {chain ->
-//        val url = chain.request().url.newBuilder().build()
-//        val request = chain.request().newBuilder().url(url).build()
-//        chain.proceed(request)
-//    }
-//
-//    //Creating a networking client to using OkHttp and add our authInterceptor
-//    private val apiClient = OkHttpClient().newBuilder().addInterceptor(interceptor).build()
