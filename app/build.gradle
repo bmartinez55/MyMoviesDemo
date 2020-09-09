@@ -17,20 +17,18 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    buildTypes.each {
-        Properties properties = new Properties()
-        properties.load(project.rootProject.file("local.properties").newDataInputStream())
-        def tmbdApiKey = properties.getProperty("tmbd_api_key","")
-
-        it.buildConfigField 'String', "TMBD_API_KEY", tmbdApiKey
-        it.resValue 'string', "api_key", tmbdApiKey
-    }
+    def API_KEY_VALUE = project.ext.properties.API_KEY
+    API_KEY_VALUE = API_KEY_VALUE == null ? "\"\"" : API_KEY_VALUE
 
     buildTypes {
+        debug {
+            buildConfigField "String", "API_KEY", API_KEY_VALUE
+        }
         customDebutType{
             debuggable true
         }
         release {
+            buildConfigField "String", "API_KEY", API_KEY_VALUE
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
