@@ -10,7 +10,7 @@ import retrofit2.http.GET
 interface ApiService {
 
     //@Headers("user-key: 1c976c5d-e5b0-11ea-b386-0242ac110002")
-    @GET("11bc0643826c")
+    @GET("/")
     fun getMoviesAsync(): List<Movies>
 
     @GET("/")

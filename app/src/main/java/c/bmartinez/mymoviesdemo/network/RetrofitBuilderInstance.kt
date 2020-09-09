@@ -11,7 +11,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.create
 
 object RetrofitBuilderInstance {
-    private const val MOVIES_URL = "https://json.extendsclass.com/bin/"
+    private const val MOVIES_URL = "https://api.themoviedb.org/3/movie/157336?api_key={api_key}"
     private val logging = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC)
     private val client: OkHttpClient = OkHttpClient().newBuilder().addInterceptor(logging).build()
 
