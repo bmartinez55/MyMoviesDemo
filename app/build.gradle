@@ -17,18 +17,11 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    def API_KEY_VALUE = project.ext.properties.API_KEY
-    API_KEY_VALUE = API_KEY_VALUE == null ? "\"\"" : API_KEY_VALUE
-
     buildTypes {
-        debug {
-            buildConfigField "String", "API_KEY", API_KEY_VALUE
-        }
         customDebutType{
             debuggable true
         }
         release {
-            buildConfigField "String", "API_KEY", API_KEY_VALUE
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
