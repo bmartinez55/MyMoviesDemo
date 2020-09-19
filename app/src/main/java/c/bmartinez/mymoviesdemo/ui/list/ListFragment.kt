@@ -47,10 +47,8 @@ class ListFragment: Fragment() {
     }
 
     private fun setUpUI(){
-        movieListVM.movieDataVM.observe(this, Observer { it ->
-            for(i in it){
-                movieData.add(i)
-            }
+        movieListVM.popularMoviesLiveData.observe(this, Observer {
+            movieData.addAll(it.toList())
         })
     }
 
