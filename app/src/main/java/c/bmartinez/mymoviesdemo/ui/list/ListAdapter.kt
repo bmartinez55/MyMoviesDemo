@@ -42,11 +42,11 @@ class ListAdapter(private val context: Context ,private val movies: List<Movies>
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         val currentMovie: Movies = movies[position]
-        Glide.with(holder.imgView!!.context).load(currentMovie.posterurl).into(holder.imgView!!)
+        Glide.with(holder.imgView!!.context).load("http://image.tmdb.org/t/p/w500${currentMovie.poster_path}").into(holder.imgView!!)
         holder.titleTextView!!.text = currentMovie.title
-        holder.genreTextView!!.text = convertGenreArrayToString(currentMovie.genres)
-        holder.dateReleaseTextView!!.text = changeTimeFormat(currentMovie.releaseDate).toString()
-        holder.shortTextView!!.text = checkMovieShort(currentMovie.duration)
+        //holder.genreTextView!!.text = convertGenreArrayToString(currentMovie.genres)
+        holder.dateReleaseTextView!!.text = changeTimeFormat(currentMovie.release_date).toString()
+        //holder.shortTextView!!.text = checkMovieShort(currentMovie.duration)
 //        holder.itemView.setOnClickListener {
 //            onItemClickListener?.onItemCLick(holder.itemView,position)
 //        }
