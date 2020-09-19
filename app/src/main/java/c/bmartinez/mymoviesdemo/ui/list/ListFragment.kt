@@ -1,6 +1,7 @@
 package c.bmartinez.mymoviesdemo.ui.list
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,52 +9,51 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager.*
 import androidx.recyclerview.widget.RecyclerView
 import c.bmartinez.mymoviesdemo.R
 import c.bmartinez.mymoviesdemo.data.Movies
 import c.bmartinez.mymoviesdemo.ui.viewmodels.MainViewModel
+import kotlinx.android.synthetic.main.fragment_list.*
 
 class ListFragment: Fragment() {
 
     private lateinit var movieListVM: MainViewModel
     private var movieData: ArrayList<Movies> = arrayListOf()
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var linearLayoutManager: LinearLayoutManager
-    private lateinit var adapter: ListAdapter
+    //private lateinit var linearLayoutManager: LinearLayoutManager
+    //private lateinit var adapter: ListAdapter
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val rootView = inflater.inflate(R.layout.fragment_list, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_list,container,false)
 
-        recyclerView = rootView.findViewById(R.id.movieList) as RecyclerView
-
-        return rootView
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         movieListVM = ViewModelProvider(this).get(MainViewModel::class.java)
 
+        setUpRecyclerView(movieList)
         setUpUI()
-        checkData()
-        adapter = ListAdapter(requireContext(), movieData)
-        linearLayoutManager = LinearLayoutManager(activity)
-        linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
-        recyclerView.setHasFixedSize(true)
-        recyclerView.layoutManager = linearLayoutManager
-        adapter.notifyDataSetChanged()
-
-
     }
 
     private fun setUpUI(){
         movieListVM.popularMoviesLiveData.observe(this, Observer {
-            movieData.addAll(it.toList())
+            for(x in it){
+                Log.i("DATA: ", x.title)
+            }
+            //movieData.addAll(it.toList())
         })
     }
 
-    private fun checkData(){
-        if(movieData.isEmpty()){ Toast.makeText(context,"Data was not retrieved", Toast.LENGTH_LONG).show()}
-        else { Toast.makeText(context, "Data retrieval was a success!", Toast.LENGTH_LONG).show() }
+    private fun setUpRecyclerView(recyclerView: RecyclerView){
+        recyclerView.adapter = ListAdapter(requireContext(), movieData)
+        //recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(activity)
+        //linearLayoutManager = LinearLayoutManager(activity)
+        //linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
+        recyclerView.setHasFixedSize(true)
+        //recyclerView.layoutManager = linearLayoutManager
+        //adapter.notifyDataSetChanged()
+        (recyclerView.adapter as ListAdapter).notifyDataSetChanged()
     }
 }
