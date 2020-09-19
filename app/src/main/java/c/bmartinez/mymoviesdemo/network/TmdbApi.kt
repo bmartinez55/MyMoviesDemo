@@ -8,5 +8,5 @@ import retrofit2.http.GET
 interface TmdbApi {
 
     @GET("movie/popular")
-    suspend fun getMoviesAsync(): Deferred<Response<MovieDataResponse>>
+    suspend fun getPopularMovies(): Deferred<Response<MovieDataResponse>>
 }
