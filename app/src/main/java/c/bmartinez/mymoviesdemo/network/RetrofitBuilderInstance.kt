@@ -6,7 +6,9 @@ import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterF
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.util.concurrent.TimeUnit
 
 object RetrofitBuilderInstance {
 
@@ -28,12 +30,14 @@ object RetrofitBuilderInstance {
     //OkHttpClient for building http request url
     private val tmdbClient = OkHttpClient().newBuilder()
         .addInterceptor(authInterceptor)
+        .connectTimeout(30, TimeUnit.SECONDS)
+        .retryOnConnectionFailure(true)
         .build()
 
     fun retrofit(): Retrofit = Retrofit.Builder()
         .client(tmdbClient)
         .baseUrl(BASE_URL)
-        .addConverterFactory(MoshiConverterFactory.create())
+        .addConverterFactory(GsonConverterFactory.create())
         .addCallAdapterFactory(CoroutineCallAdapterFactory())
         .build()
 
