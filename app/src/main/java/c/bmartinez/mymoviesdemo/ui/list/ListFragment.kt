@@ -39,9 +39,10 @@ class ListFragment: Fragment() {
     private fun setUpUI(){
         movieListVM.popularMoviesLiveData.observe(this, Observer {
             for(x in it){
-                Log.i("DATA: ", x.title)
+                Log.d("DATA: ", x.title)
             }
-            //movieData.addAll(it.toList())
+            movieData.addAll(it.toList())
+            if(movieData.isEmpty()) Toast.makeText(context,"Empty Array", Toast.LENGTH_LONG).show()
         })
     }
 

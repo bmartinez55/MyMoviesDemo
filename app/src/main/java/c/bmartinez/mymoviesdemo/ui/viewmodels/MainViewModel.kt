@@ -14,8 +14,9 @@ class MainViewModel: ViewModel() {
         get() = parentJob + Dispatchers.Default
     private val scope = CoroutineScope(coroutineContext)
     private val respository: MainRepository = MainRepository(RetrofitBuilderInstance.tmdbApi)
-    val popularMoviesLiveData = MutableLiveData<MutableList<Movies>>()
-
+    val popularMoviesLiveData = MutableLiveData<List<Movies>>()
+        //MutableLiveData<MutableList<Movies>>()
+    //MutableList<Movies>
     fun fetchMovies(){
         scope.launch{
             val popularMovies = respository.getPopularMovies()
