@@ -17,11 +17,12 @@ class MainViewModel: ViewModel() {
     val popularMoviesLiveData = MutableLiveData<List<Movies>>()
         //MutableLiveData<MutableList<Movies>>()
     //MutableList<Movies>
-    fun fetchMovies(){
+    fun fetchMovies(): LiveData<List<Movies>>{
         scope.launch{
             val popularMovies = respository.getPopularMovies()
             popularMoviesLiveData.postValue(popularMovies)
         }
+            return popularMoviesLiveData
     }
 
     fun cancelAllRequests() = coroutineContext.cancel()

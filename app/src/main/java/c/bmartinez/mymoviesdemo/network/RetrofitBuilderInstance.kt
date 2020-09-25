@@ -2,7 +2,9 @@ package c.bmartinez.mymoviesdemo.network
 
 import c.bmartinez.mymoviesdemo.utils.AppConstants.API_KEY
 import c.bmartinez.mymoviesdemo.utils.AppConstants.BASE_URL
+import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import com.squareup.moshi.Moshi
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -34,7 +36,11 @@ object RetrofitBuilderInstance {
         .retryOnConnectionFailure(true)
         .build()
 
-    fun retrofit(): Retrofit = Retrofit.Builder()
+    private val gson = GsonBuilder()
+        .setLenient()
+        .create()
+
+    private fun retrofit(): Retrofit = Retrofit.Builder()
         .client(tmdbClient)
         .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
