@@ -20,6 +20,10 @@ import kotlinx.android.synthetic.main.fragment_list.*
 
 class ListFragment: Fragment() {
 
+    companion object {
+        private const val LOG_TAG = "ListFragment"
+    }
+
     private lateinit var movieListVM: MainViewModel
     private var movieData: ArrayList<Movies> = arrayListOf()
     //private lateinit var linearLayoutManager: LinearLayoutManager
@@ -37,9 +41,9 @@ class ListFragment: Fragment() {
     }
 
     private fun setUpUI(){
-        movieListVM.popularMoviesLiveData.observe(this, Observer {
+        movieListVM.fetchMovies().observe(this, Observer {
             for(x in it){
-                Log.d("DATA: ", x.title)
+                Log.i(LOG_TAG, x.title)
             }
             movieData.addAll(it.toList())
             if(movieData.isEmpty()) Toast.makeText(context,"Empty Array", Toast.LENGTH_LONG).show()
@@ -57,4 +61,6 @@ class ListFragment: Fragment() {
         //adapter.notifyDataSetChanged()
         (recyclerView.adapter as ListAdapter).notifyDataSetChanged()
     }
+
+
 }
