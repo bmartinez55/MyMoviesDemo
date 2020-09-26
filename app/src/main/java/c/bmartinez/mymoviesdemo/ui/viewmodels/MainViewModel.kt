@@ -3,7 +3,6 @@ package c.bmartinez.mymoviesdemo.ui.viewmodels
 import androidx.lifecycle.*
 import c.bmartinez.mymoviesdemo.data.MainRepository
 import c.bmartinez.mymoviesdemo.data.MovieDataResponse
-import c.bmartinez.mymoviesdemo.data.Movies
 import c.bmartinez.mymoviesdemo.network.RetrofitBuilderInstance
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
@@ -14,13 +13,12 @@ class MainViewModel: ViewModel() {
     private val coroutineContext: CoroutineContext
         get() = parentJob + Dispatchers.Default
     private val scope = CoroutineScope(coroutineContext)
-    private val respository: MainRepository = MainRepository(RetrofitBuilderInstance.tmdbApi)
-    val popularMoviesLiveData = MutableLiveData<MovieDataResponse>()
-        //MutableLiveData<MutableList<Movies>>()
-    //MutableList<Movies>
+    private val repository: MainRepository = MainRepository(RetrofitBuilderInstance.tmdbApi)
+    private val popularMoviesLiveData = MutableLiveData<MovieDataResponse>()
+
     fun fetchMovies(): LiveData<MovieDataResponse>{
         scope.launch{
-            val popularMovies = respository.getPopularMovies()
+            val popularMovies = repository.getPopularMovies()
             popularMoviesLiveData.postValue(popularMovies)
         }
             return popularMoviesLiveData
