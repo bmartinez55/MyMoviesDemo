@@ -42,10 +42,10 @@ class ListFragment: Fragment() {
 
     private fun setUpUI(){
         movieListVM.fetchMovies().observe(this, Observer {
-            for(x in it){
+            for(x in it.results.listIterator()){
                 Log.i(LOG_TAG, x.title)
             }
-            movieData.addAll(it.toList())
+            movieData.addAll(it.results.toList())
             if(movieData.isEmpty()) Toast.makeText(context,"Empty Array", Toast.LENGTH_LONG).show()
         })
     }
