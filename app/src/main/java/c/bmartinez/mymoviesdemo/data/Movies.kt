@@ -1,6 +1,7 @@
 package c.bmartinez.mymoviesdemo.data
 
 import com.google.gson.annotations.SerializedName
+import java.util.*
 
 //Data Model for the Response returned from the TMDB API
 data class MovieDataResponse(
@@ -23,5 +24,7 @@ data class Movies(
     @SerializedName("poster_path")
     val poster_path: String,
     @SerializedName("release_date")
-    val release_date: String
+    val release_date: String,
+    @SerializedName("genres")
+    val genres: List<Int>
 )
