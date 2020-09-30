@@ -44,7 +44,7 @@ class ListAdapter(private val context: Context ,private val movies: List<Movies>
         val currentMovie: Movies = movies[position]
         Glide.with(holder.imgView!!.context).load("http://image.tmdb.org/t/p/w500${currentMovie.poster_path}").into(holder.imgView!!)
         holder.titleTextView!!.text = currentMovie.title
-        //holder.genreTextView!!.text = convertGenreArrayToString(currentMovie.genres)
+        holder.genreTextView!!.text = convertGenreArrayToString(currentMovie.genres)
         holder.dateReleaseTextView!!.text = changeTimeFormat(currentMovie.release_date).toString()
         //holder.shortTextView!!.text = checkMovieShort(currentMovie.duration)
 //        holder.itemView.setOnClickListener {
@@ -67,8 +67,8 @@ class ListAdapter(private val context: Context ,private val movies: List<Movies>
         return createNewDate
     }
 
-    private fun convertGenreArrayToString(genres: List<String>) = genres.joinToString(", ")
-    private fun fixDurationFormat(input: String) = input.replace("M"," minutes")
+    private fun convertGenreArrayToString(genres: List<Int>) = genres.
+    // genres.joinToString(", ")
 
 //    fun setItemClickListener(clickListener: ItemClickListener){
 //        onItemClickListener = clickListener
