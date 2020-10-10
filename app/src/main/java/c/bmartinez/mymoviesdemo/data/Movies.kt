@@ -26,5 +26,13 @@ data class Movies(
     @SerializedName("release_date")
     val release_date: String,
     @SerializedName("genres")
-    val genres: List<Int>
+    val genres: List<MovieGenre>
+)
+
+//Data Model for TMDB Movie Genre
+data class MovieGenre(
+    @SerializedName("id")
+    val id: Int,
+    @SerializedName("name")
+    val name: String
 )
