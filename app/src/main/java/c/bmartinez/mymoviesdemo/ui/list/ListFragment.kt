@@ -58,5 +58,9 @@ class ListFragment: Fragment() {
         (recyclerView.adapter as ListAdapter).notifyDataSetChanged()
     }
 
-
+    private fun checkData(){
+        for(x in movieData){
+            Log.i(LOG_TAG, x.genres)
+        }
+    }
 }

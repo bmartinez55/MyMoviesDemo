@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import c.bmartinez.mymoviesdemo.R
+import c.bmartinez.mymoviesdemo.data.MovieGenre
 import c.bmartinez.mymoviesdemo.data.Movies
 import com.bumptech.glide.Glide
 import java.text.SimpleDateFormat
@@ -22,14 +23,14 @@ class ListAdapter(private val context: Context ,private val movies: List<Movies>
         var imgView: ImageView? = null
         var genreTextView: TextView? = null
         var dateReleaseTextView: TextView? = null
-        var shortTextView: TextView? = null
+        var adultTextView: TextView? = null
 
         init {
             titleTextView = itemView.findViewById(R.id.titleMovie)
             imgView = itemView.findViewById(R.id.moviePoster)
             genreTextView = itemView.findViewById(R.id.genreTextView)
             dateReleaseTextView = itemView.findViewById(R.id.dateRelease)
-            shortTextView = itemView.findViewById(R.id.shortTextView)
+            adultTextView = itemView.findViewById(R.id.adultTextView)
         }
     }
 
@@ -46,17 +47,15 @@ class ListAdapter(private val context: Context ,private val movies: List<Movies>
         holder.titleTextView!!.text = currentMovie.title
         holder.genreTextView!!.text = convertGenreArrayToString(currentMovie.genres)
         holder.dateReleaseTextView!!.text = changeTimeFormat(currentMovie.release_date).toString()
-        //holder.shortTextView!!.text = checkMovieShort(currentMovie.duration)
+        holder.adultTextView!!.text = checkAdultMovie(currentMovie.adult)
 //        holder.itemView.setOnClickListener {
 //            onItemClickListener?.onItemCLick(holder.itemView,position)
 //        }
     }
 
-    private fun checkMovieShort(length: String): String{
-        val time: Int = length.replace("M","").toInt()
-
-        if(time < 90 ) return "Short"
-        else{return "Long"}
+    private fun checkAdultMovie(check: Boolean): String {
+        return if (check) "Adult 18+"
+        else { "Suitable for certain ages" }
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -67,9 +66,13 @@ class ListAdapter(private val context: Context ,private val movies: List<Movies>
         return createNewDate
     }
 
-    private fun convertGenreArrayToString(genres: List<Int>) = genres.
-    // genres.joinToString(", ")
-
+    private fun convertGenreArrayToString(genres: List<MovieGenre>): String{
+        var genreStr: String = ""
+        for(x in genres){
+            genreStr += x.name
+        }
+        return genreStr
+    }
 //    fun setItemClickListener(clickListener: ItemClickListener){
 //        onItemClickListener = clickListener
 //    }
