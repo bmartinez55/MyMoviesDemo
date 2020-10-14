@@ -1,17 +1,13 @@
 package c.bmartinez.mymoviesdemo.ui.list
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager.*
 import androidx.recyclerview.widget.RecyclerView
 import c.bmartinez.mymoviesdemo.R
 import c.bmartinez.mymoviesdemo.data.Movies
@@ -26,6 +22,7 @@ class ListFragment: Fragment() {
 
     private lateinit var movieListVM: MainViewModel
     private var movieData: ArrayList<Movies> = arrayListOf()
+    private var movieGenreMap: HashMap<Int,String> = mapOf<Int,String>() as HashMap<Int, String>
     //private lateinit var linearLayoutManager: LinearLayoutManager
     //private lateinit var adapter: ListAdapter
 
@@ -41,13 +38,16 @@ class ListFragment: Fragment() {
     }
 
     private fun setUpUI(){
-        movieListVM.fetchMovies().observe(this, Observer {
-            movieData.addAll(it.results.toList())
+        movieListVM.fetchMovies().observe(this, Observer { movieData.addAll(it.results.toList()) })
+        movieListVM.fetchMovieGenres().observe(this, Observer {
+            for(x in it.genres){
+                movieGenreMap[x.id] = x.name
+            }
         })
     }
 
     private fun setUpRecyclerView(recyclerView: RecyclerView){
-        recyclerView.adapter = ListAdapter(requireContext(), movieData)
+        recyclerView.adapter = ListAdapter(requireContext(), movieData, movieGenreMap)
         //recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(activity)
         //linearLayoutManager = LinearLayoutManager(activity)
@@ -56,11 +56,5 @@ class ListFragment: Fragment() {
         //recyclerView.layoutManager = linearLayoutManager
         //adapter.notifyDataSetChanged()
         (recyclerView.adapter as ListAdapter).notifyDataSetChanged()
-    }
-
-    private fun checkData(){
-        for(x in movieData){
-            Log.i(LOG_TAG, x.genres)
-        }
     }
 }
