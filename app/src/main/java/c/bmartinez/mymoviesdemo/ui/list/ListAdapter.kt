@@ -14,9 +14,11 @@ import c.bmartinez.mymoviesdemo.data.Movies
 import com.bumptech.glide.Glide
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.HashMap
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
-class ListAdapter(private val context: Context ,private val movies: List<Movies>): RecyclerView.Adapter<ListAdapter.MovieViewHolder>() {
+class ListAdapter(private val context: Context, private val movies: List<Movies>,
+    private val movieGenres: HashMap<Int,String>): RecyclerView.Adapter<ListAdapter.MovieViewHolder>() {
 
     class MovieViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         var titleTextView: TextView? = null
@@ -45,7 +47,7 @@ class ListAdapter(private val context: Context ,private val movies: List<Movies>
         val currentMovie: Movies = movies[position]
         Glide.with(holder.imgView!!.context).load("http://image.tmdb.org/t/p/w500${currentMovie.poster_path}").into(holder.imgView!!)
         holder.titleTextView!!.text = currentMovie.title
-        holder.genreTextView!!.text = convertGenreArrayToString(currentMovie.genres)
+        holder.genreTextView!!.text = convertGenreArrayToString(currentMovie.genresIDs)
         holder.dateReleaseTextView!!.text = changeTimeFormat(currentMovie.release_date).toString()
         holder.adultTextView!!.text = checkAdultMovie(currentMovie.adult)
 //        holder.itemView.setOnClickListener {
@@ -66,12 +68,13 @@ class ListAdapter(private val context: Context ,private val movies: List<Movies>
         return createNewDate
     }
 
-    private fun convertGenreArrayToString(genres: List<MovieGenre>): String{
-        var genreStr: String = ""
+    private fun convertGenreArrayToString(genres: List<Int>): String {
         for(x in genres){
-            genreStr += x.name
+            if(movieGenres.containsKey(x)){
+                return movieGenres[x].toString()
+            }
         }
-        return genreStr
+        return ""
     }
 //    fun setItemClickListener(clickListener: ItemClickListener){
 //        onItemClickListener = clickListener
