@@ -13,12 +13,19 @@ import c.bmartinez.mymoviesdemo.R
 import c.bmartinez.mymoviesdemo.data.Movies
 import c.bmartinez.mymoviesdemo.ui.viewmodels.MainViewModel
 import kotlinx.android.synthetic.main.fragment_list.*
+import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
 
 class ListFragment: Fragment() {
 
     companion object {
         private const val LOG_TAG = "ListFragment"
     }
+
+    private val taskJob = Job()
+    private val coroutineContext: CoroutineContext
+        get() = taskJob + Dispatchers.Default
+    private val scope = CoroutineScope(coroutineContext)
 
     private lateinit var movieListVM: MainViewModel
     private var movieData: ArrayList<Movies> = arrayListOf()
@@ -34,7 +41,7 @@ class ListFragment: Fragment() {
         movieListVM = ViewModelProvider(this).get(MainViewModel::class.java)
 
         setUpRecyclerView(movieList)
-        setUpUI()
+        scope.launch { setUpUI() }
     }
 
     private fun setUpUI(){
