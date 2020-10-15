@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import c.bmartinez.mymoviesdemo.R
 import c.bmartinez.mymoviesdemo.data.Movies
@@ -19,19 +20,18 @@ import kotlin.collections.HashMap
 class ListAdapter(private val context: Context, private val movies: List<Movies>,
     private val movieGenres: HashMap<Int,String>): RecyclerView.Adapter<ListAdapter.MovieViewHolder>() {
 
-    class MovieViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        var titleTextView: TextView? = null
-        var imgView: ImageView? = null
-        var genreTextView: TextView? = null
-        var dateReleaseTextView: TextView? = null
-        var adultTextView: TextView? = null
+    inner class MovieViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+        var titleTextView: TextView = itemView.findViewById(R.id.titleMovie)
+        var imgView: ImageView = itemView.findViewById(R.id.moviePoster)
+        var genreTextView: TextView = itemView.findViewById(R.id.genreTextView)
+        var dateReleaseTextView: TextView? = itemView.findViewById(R.id.dateRelease)
+        var adultTextView: TextView? = itemView.findViewById(R.id.adultTextView)
 
         init {
-            titleTextView = itemView.findViewById(R.id.titleMovie)
-            imgView = itemView.findViewById(R.id.moviePoster)
-            genreTextView = itemView.findViewById(R.id.genreTextView)
-            dateReleaseTextView = itemView.findViewById(R.id.dateRelease)
-            adultTextView = itemView.findViewById(R.id.adultTextView)
+            itemView.setOnClickListener { v: View ->
+                val position: Int = adapterPosition
+                Toast.makeText(itemView.context, "You clicked on item #${position + 1}", Toast.LENGTH_LONG).show()
+            }
         }
     }
 
@@ -44,9 +44,9 @@ class ListAdapter(private val context: Context, private val movies: List<Movies>
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         val currentMovie: Movies = movies[position]
-        Glide.with(holder.imgView!!.context).load("http://image.tmdb.org/t/p/w500${currentMovie.poster_path}").into(holder.imgView!!)
-        holder.titleTextView!!.text = currentMovie.title
-        holder.genreTextView!!.text = convertGenreArrayToString(currentMovie.genresIDs)
+        Glide.with(holder.imgView.context).load("http://image.tmdb.org/t/p/w500${currentMovie.poster_path}").into(holder.imgView!!)
+        holder.titleTextView.text = currentMovie.title
+        holder.genreTextView.text = convertGenreArrayToString(currentMovie.genresIDs)
         holder.dateReleaseTextView!!.text = changeTimeFormat(currentMovie.release_date).toString()
         holder.adultTextView!!.text = checkAdultMovie(currentMovie.adult)
         holder.itemView.setOnClickListener {
