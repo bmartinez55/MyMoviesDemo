@@ -9,7 +9,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import c.bmartinez.mymoviesdemo.R
-import c.bmartinez.mymoviesdemo.data.MovieGenre
 import c.bmartinez.mymoviesdemo.data.Movies
 import com.bumptech.glide.Glide
 import java.text.SimpleDateFormat
@@ -62,31 +61,23 @@ class ListAdapter(private val context: Context, private val movies: List<Movies>
 
     @SuppressLint("SimpleDateFormat")
     private fun changeTimeFormat(time: String): Date {
-        val formatter: SimpleDateFormat = SimpleDateFormat("MM-dd-yyyy")
-        val createNewDate: Date = formatter.parse(time)
-
-        return createNewDate
+        val formatter = SimpleDateFormat("MM-dd-yyyy")
+        return formatter.parse(time)
     }
 
     private fun convertGenreArrayToString(genres: List<Int>): String {
+        var genreStr: String = ""
         for(x in genres){
             if(movieGenres.containsKey(x)){
-                return movieGenres[x].toString()
+                genreStr = "$x, "
             }
         }
-        return ""
+        return genreStr.dropLast(2)
     }
 //    fun setItemClickListener(clickListener: ItemClickListener){
 //        onItemClickListener = clickListener
 //    }
 //    interface ItemClickListener{
 //        fun onItemCLick(view: View, position: Int)
-//    }
-
-//    fun addMovies(movies: List<Movies>){
-//        this.movies.apply {
-//            clear()
-//            addAll(movies)
-//        }
 //    }
 }

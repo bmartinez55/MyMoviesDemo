@@ -1,6 +1,7 @@
 package c.bmartinez.mymoviesdemo.ui.list
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,14 +23,9 @@ class ListFragment: Fragment() {
         private const val LOG_TAG = "ListFragment"
     }
 
-    private val taskJob = Job()
-    private val coroutineContext: CoroutineContext
-        get() = taskJob + Dispatchers.Default
-    private val scope = CoroutineScope(coroutineContext)
-
     private lateinit var movieListVM: MainViewModel
     private var movieData: ArrayList<Movies> = arrayListOf()
-    private var movieGenreMap: HashMap<Int,String> = mapOf<Int,String>() as HashMap<Int, String>
+    private var movieGenreMap: HashMap<Int,String> = HashMap()
     //private lateinit var linearLayoutManager: LinearLayoutManager
     //private lateinit var adapter: ListAdapter
 
@@ -41,7 +37,8 @@ class ListFragment: Fragment() {
         movieListVM = ViewModelProvider(this).get(MainViewModel::class.java)
 
         setUpRecyclerView(movieList)
-        scope.launch { setUpUI() }
+        setUpUI()
+        checkData()
     }
 
     private fun setUpUI(){
@@ -63,5 +60,11 @@ class ListFragment: Fragment() {
         //recyclerView.layoutManager = linearLayoutManager
         //adapter.notifyDataSetChanged()
         (recyclerView.adapter as ListAdapter).notifyDataSetChanged()
+    }
+
+    private fun checkData(){
+        for(x in movieGenreMap){
+            Log.i(LOG_TAG, x.value)
+        }
     }
 }
