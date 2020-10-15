@@ -14,8 +14,6 @@ import c.bmartinez.mymoviesdemo.R
 import c.bmartinez.mymoviesdemo.data.Movies
 import c.bmartinez.mymoviesdemo.ui.viewmodels.MainViewModel
 import kotlinx.android.synthetic.main.fragment_list.*
-import kotlinx.coroutines.*
-import kotlin.coroutines.CoroutineContext
 
 class ListFragment: Fragment() {
 
@@ -26,8 +24,8 @@ class ListFragment: Fragment() {
     private lateinit var movieListVM: MainViewModel
     private var movieData: ArrayList<Movies> = arrayListOf()
     private var movieGenreMap: HashMap<Int,String> = HashMap()
-    //private lateinit var linearLayoutManager: LinearLayoutManager
-    //private lateinit var adapter: ListAdapter
+    private lateinit var adapter: ListAdapter
+    private lateinit var recyclerView: RecyclerView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         inflater.inflate(R.layout.fragment_list,container,false)
@@ -36,7 +34,7 @@ class ListFragment: Fragment() {
         super.onActivityCreated(savedInstanceState)
         movieListVM = ViewModelProvider(this).get(MainViewModel::class.java)
 
-        setUpRecyclerView(movieList)
+        setUpRecyclerView()
         setUpUI()
         checkData()
     }
@@ -50,16 +48,11 @@ class ListFragment: Fragment() {
         })
     }
 
-    private fun setUpRecyclerView(recyclerView: RecyclerView){
-        recyclerView.adapter = ListAdapter(requireContext(), movieData, movieGenreMap)
-        //recyclerView.adapter = adapter
+    private fun setUpRecyclerView(){
+        recyclerView = view!!.findViewById(R.id.movieList)
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        //linearLayoutManager = LinearLayoutManager(activity)
-        //linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
-        recyclerView.setHasFixedSize(true)
-        //recyclerView.layoutManager = linearLayoutManager
-        //adapter.notifyDataSetChanged()
-        (recyclerView.adapter as ListAdapter).notifyDataSetChanged()
+        recyclerView.adapter = ListAdapter(requireContext(),movieData,movieGenreMap)
+        //recyclerView.adapter!!.notifyDataSetChanged()
     }
 
     private fun checkData(){

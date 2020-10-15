@@ -35,7 +35,7 @@ class ListAdapter(private val context: Context, private val movies: List<Movies>
         }
     }
 
-    //private var onItemClickListener: ItemClickListener? = null
+    private var onItemClickListener: ItemClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder =
         MovieViewHolder(LayoutInflater.from(context).inflate(R.layout.list_item,parent,false))
@@ -49,9 +49,9 @@ class ListAdapter(private val context: Context, private val movies: List<Movies>
         holder.genreTextView!!.text = convertGenreArrayToString(currentMovie.genresIDs)
         holder.dateReleaseTextView!!.text = changeTimeFormat(currentMovie.release_date).toString()
         holder.adultTextView!!.text = checkAdultMovie(currentMovie.adult)
-//        holder.itemView.setOnClickListener {
-//            onItemClickListener?.onItemCLick(holder.itemView,position)
-//        }
+        holder.itemView.setOnClickListener {
+            onItemClickListener?.onItemCLick(holder.itemView,position)
+        }
     }
 
     private fun checkAdultMovie(check: Boolean): String {
@@ -68,16 +68,14 @@ class ListAdapter(private val context: Context, private val movies: List<Movies>
     private fun convertGenreArrayToString(genres: List<Int>): String {
         var genreStr: String = ""
         for(x in genres){
-            if(movieGenres.containsKey(x)){
-                genreStr = "$x, "
-            }
+            if(movieGenres.containsKey(x)){ genreStr = "$x, " }
         }
         return genreStr.dropLast(2)
     }
-//    fun setItemClickListener(clickListener: ItemClickListener){
-//        onItemClickListener = clickListener
-//    }
-//    interface ItemClickListener{
-//        fun onItemCLick(view: View, position: Int)
-//    }
+    fun setItemClickListener(clickListener: ItemClickListener){
+        onItemClickListener = clickListener
+    }
+    interface ItemClickListener{
+        fun onItemCLick(view: View, position: Int)
+    }
 }
