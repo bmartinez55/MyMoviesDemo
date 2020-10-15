@@ -27,14 +27,18 @@ class ListFragment: Fragment() {
     private lateinit var adapter: ListAdapter
     private lateinit var recyclerView: RecyclerView
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_list,container,false)
-
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = inflater.inflate(R.layout.fragment_list, container, false)
+        recyclerView = view.findViewById(R.id.movieList)
+        recyclerView.layoutManager = LinearLayoutManager(activity)
+        recyclerView.adapter = adapter.apply { context?.let { ListAdapter(it,movieData,movieGenreMap) } }
+        return view
+    }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         movieListVM = ViewModelProvider(this).get(MainViewModel::class.java)
 
-        setUpRecyclerView()
+        //setUpRecyclerView()
         setUpUI()
         checkData()
     }
@@ -48,12 +52,13 @@ class ListFragment: Fragment() {
         })
     }
 
-    private fun setUpRecyclerView(){
-        recyclerView = view!!.findViewById(R.id.movieList)
-        recyclerView.layoutManager = LinearLayoutManager(activity)
-        recyclerView.adapter = ListAdapter(requireContext(),movieData,movieGenreMap)
-        //recyclerView.adapter!!.notifyDataSetChanged()
-    }
+//    private fun setUpRecyclerView(){
+//        recyclerView = view!!.findViewById(R.id.movieList)
+//        recyclerView.layoutManager = LinearLayoutManager(activity)
+//        adapter = ListAdapter(requireContext(),movieData,movieGenreMap)
+//        recyclerView.adapter = adapter
+//        //recyclerView.adapter!!.notifyDataSetChanged()
+//    }
 
     private fun checkData(){
         for(x in movieGenreMap){
